@@ -1,0 +1,65 @@
+{% extends './base.html' %}
+
+{% block title %}
+  Course details
+{% endblock %}
+
+{% load cource_custom_tag %}
+{% block content %}
+
+
+  <div class="container-fluid">
+    <br />
+    <div class="row">
+      
+      {% for course in courses %}
+        <div class="col mx-auto">
+          <div class="card mx-auto" style="width: 18rem;">
+            <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">{{ course.name }}</h5>
+              <p class="card-text p-0 m-0">
+                <span class="badge bg-primary">Save {{ course.discount }}% </span>
+                <br />
+                
+                <span style="font-size: 20px;">
+                  <del>{{ course.price|rupee  }}</del>&nbsp;
+                  <span>{% cal_sell_price course.price course.discount as value %} {{ value|rupee }}</span>
+                  {% if value == 0 %}
+                  {% comment %} <span class="badge bg-primary">Free</span> {% endcomment %}
+                  {% endif %}
+                </span>
+              </p>
+            </div>
+
+            <div class="card-footer p-0">
+              {% is_enrolled request course as enrolled %}
+
+              <div class="row no-gutters">
+                {% if enrolled %}
+                  <div class="col ">
+                    <a href="/course/{{ course.slug }}" class="btn btn-light w-100">Start course
+                      
+                    
+
+                    </a>
+                  </div>  
+                {% else %}
+                  <div class="col border-end">
+                    <a href="/checkout/{{ course.slug }}" class="btn btn-light w-100">Enroll now
+                        
+
+                    </a>
+                  </div>
+                  <div class="col">
+                    <a href="course/{{ course.slug }}" class="btn btn-light w-100">View more</a>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

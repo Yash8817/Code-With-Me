@@ -1,0 +1,38 @@
+{% extends './base.html' %}
+
+{% block title %}
+  signup
+{% endblock %}
+
+{% load cource_custom_tag %}
+{% block content %}
+  <div class="container-fluid">
+    <h1 class="display-6 text-center">My Courses</h1>
+    <hr />
+
+    <div class="row">
+      {% for us in user_course %}
+        <div class="col mx-auto">
+          <div class="card mx-auto" style="width: 18rem;">
+            <img src="{{ us.course.thumbnail.url }}" class="card-img-top" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">{{ us.course.name }}</h5>
+            </div>
+
+            <div class="card-footer p-0">
+              <div class="row no-gutters">
+                <div class="col">
+                  <a href="/course/{{ us.course.slug }}" class="btn btn-light w-100">Start course</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-center">
+          No course found, you can view and enroll <a href="http://127.0.0.1:8000/">here</a>
+        </p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
